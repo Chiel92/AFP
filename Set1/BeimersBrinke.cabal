@@ -16,5 +16,5 @@ Library
   Exposed-modules:  A2_5,
                     A7_1,
                     A8_1,
-                    profiling
+                    Profiling
 

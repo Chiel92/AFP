@@ -1,3 +1,4 @@
+module Profiling where
 import A7_1
 
 array :: [Int]
