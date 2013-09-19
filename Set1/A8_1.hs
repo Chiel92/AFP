@@ -3,12 +3,13 @@ import Test.QuickCheck
 import Criterion.Main
 import A7_1
 
--- Testing can be slow with long arrays
+-- A useful function for QuickCheck
 allSmoothPerms :: Int -> [Int] -> Property
 allSmoothPerms n l = (n > 0) ==> all (smooth n) (smoothPerms' n l)
 
+-- A benchmarking function for Criterion
 array :: [Int]
-array = [12,34,5,2,2,45,4,3]
+array = [1,4,5,2,2,5,4,3]
 test :: (Int -> [Int] -> [[Int]]) -> IO ()
 test f = defaultMain [
         bgroup "smoothPerms" [bench "1" $ whnf (f 3) array,
