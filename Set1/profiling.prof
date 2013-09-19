@@ -1,0 +1,31 @@
+	Thu Sep 19 16:26 2013 Time and Allocation Profiling Report  (Final)
+
+	   profiling +RTS -K100M -p -hc -RTS
+
+	total time  =        0.53 secs   (533 ticks @ 1000 us, 1 processor)
+	total alloc = 162,807,252 bytes  (excludes profiling overheads)
+
+COST CENTRE MODULE  %time %alloc
+
+main        Main     48.0   26.9
+smooth      A7_1     27.0   37.8
+perms       A7_1     17.1   21.9
+split       A7_1      6.9   11.6
+smoothPerms A7_1      0.9    1.8
+
+
+                                                         individual     inherited
+COST CENTRE    MODULE                  no.     entries  %time %alloc   %time %alloc
+
+MAIN           MAIN                     45           0    0.0    0.0   100.0  100.0
+ CAF           Main                     88           0    0.0    0.0   100.0  100.0
+  array        Main                     93           1    0.0    0.0     0.0    0.0
+  main         Main                     90           1   48.0   26.9   100.0  100.0
+   smoothPerms A7_1                     91           2    0.9    1.8    52.0   73.1
+    smooth     A7_1                     95      604800   27.0   37.8    27.0   37.8
+    perms      A7_1                     92      219202   17.1   21.9    24.0   33.5
+     split     A7_1                     94      357762    6.9   11.6     6.9   11.6
+ CAF           GHC.Conc.Signal          84           0    0.0    0.0     0.0    0.0
+ CAF           GHC.IO.Handle.FD         82           0    0.0    0.0     0.0    0.0
+ CAF           GHC.IO.Encoding          78           0    0.0    0.0     0.0    0.0
+ CAF           GHC.IO.Encoding.Iconv    64           0    0.0    0.0     0.0    0.0
