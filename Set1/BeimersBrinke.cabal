@@ -1,15 +1,16 @@
 Name:               BeimersBrinke
 Version:            1.0
 Cabal-Version:      >= 1.2
-Author:             Chiel ten Brinke and Mattias Beimers
+Author:             Chiel ten Brinke (3677133) and Mattias Beimers (3672565)
 License:            GPL
 License-file:       LICENSE
 Category:           Educational Assignment
-Description:        This is the first set of assignments
+Description:        This is the first set of assignments for the course Advanced Functional Programming. Please read the README.md for detailed information about the structure of this package.
 Build-Type:         Simple
 data-files:         README.md,
                     profiling_smoothPerms.ps,
                     profiling_smoothPerms'.ps
+                    A9_1.txt
 
 Library
   Build-Depends:    base,
