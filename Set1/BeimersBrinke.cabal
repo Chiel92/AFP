@@ -12,7 +12,9 @@ data-files:         README.md,
                     profiling_smoothPerms'.ps
 
 Library
-  Build-Depends:    base, criterion
+  Build-Depends:    base,
+                    criterion,
+                    quickcheck
   Exposed-modules:  A2_5,
                     A7_1,
                     A8_1,
