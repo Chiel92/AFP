@@ -1,61 +1,60 @@
 First off we prove the following lemma (1) using induction:
-	forall (xs :: [a]) (ys :: [a]) . length (xs ++ ys) == length xs + length ys
+    forall (xs :: [a]) (ys :: [a]) . length (xs ++ ys) == length xs + length ys
 
 This means we have to prove the base case and the induction part:
-	forall (ys :: [a])                      . length ([] ++ ys) == length [] + length ys
-	forall (x :: a) (xs :: [a]) (ys :: [a]) . length (xs ++ ys) == length xs + lenght ys ->
-											  length ((x:xs) ++ ys) == length (x:xs) + length ys
+    forall (ys :: [a])                      . length ([] ++ ys) == length [] + length ys
+    forall (x :: a) (xs :: [a]) (ys :: [a]) . length (xs ++ ys) == length xs + lenght ys ->
+                                              length ((x:xs) ++ ys) == length (x:xs) + length ys
 
-Proof of the base case: 
-	length ([] ++ ys)
-	= {definition of ++}
-	length ys
-	= {neutral element of addition}
-	0 + length ys
-	= {definition of length}
-	length [] + length ys
+Proof of the base case:
+    length ([] ++ ys)
+    = {definition of ++}
+    length ys
+    = {neutral element of addition}
+    0 + length ys
+    = {definition of length}
+    length [] + length ys
 
 Proof of the induction part:
-	length ((x:xs) ++ ys)
-	= {definition of ++}
-	length (x:(xs ++ ys))
-	= {definition of length}
-	1 + length (xs ++ ys)
-	= {induction step}
-	1 + length xs + length ys
-	= {definition of length}
-	length (x:xs) + length ys
+    length ((x:xs) ++ ys)
+    = {definition of ++}
+    length (x:(xs ++ ys))
+    = {definition of length}
+    1 + length (xs ++ ys)
+    = {induction step}
+    1 + length xs + length ys
+    = {definition of length}
+    length (x:xs) + length ys
 
 
 We now want to prove the following Theorem, again using induction:
-	forall (t :: Tree a) . length (flatten t) == size t
+    forall (t :: Tree a) . length (flatten t) == size t
 
 This means we have to prove the base case and the induction part:
-	forall (x :: a) . length (flatten (Leaf x)) == size (Leaf x)
-	forall (l :: Tree a) (r :: Tree a) . (length (flatten l) == size l && length (flatten r) == size r) ->
-										 length (flatten (Node l r)) == size (Node l r)
+    forall (x :: a) . length (flatten (Leaf x)) == size (Leaf x)
+    forall (l :: Tree a) (r :: Tree a) . (length (flatten l) == size l && length (flatten r) == size r) ->
+                                         length (flatten (Node l r)) == size (Node l r)
 
 Proof of the base case:
-	length (flatten (Leaf x))
-	= {definition of flatten}
-	length [x]
-	= {definition of length}
-	1 + length []
-	= {definition of length}
-	1 + 0
-	= {neutral element of addition}
-	1
-	= {definition of size}
-	size (Leaf x)
+    length (flatten (Leaf x))
+    = {definition of flatten}
+    length [x]
+    = {definition of length}
+    1 + length []
+    = {definition of length}
+    1 + 0
+    = {neutral element of addition}
+    1
+    = {definition of size}
+    size (Leaf x)
 
 Proof of the induction part:
-	length (flatten (Node l r))
-	= {definition of flatten}
-	length (flatten l ++ flatten r)
-	= {lemma (1)}
-	length (flatten l) + length (flatten r)
-	= {induction step}
-	size l + size r
-	= {definition size}
-	size (Node l r)
-
+    length (flatten (Node l r))
+    = {definition of flatten}
+    length (flatten l ++ flatten r)
+    = {lemma (1)}
+    length (flatten l) + length (flatten r)
+    = {induction step}
+    size l + size r
+    = {definition size}
+    size (Node l r)
