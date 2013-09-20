@@ -14,7 +14,7 @@ data-files:         README.md,
 Library
   Build-Depends:    base,
                     criterion,
-                    quickcheck
+                    QuickCheck
   Exposed-modules:  A2_5,
                     A7_1,
                     A8_1,
