@@ -7,6 +7,7 @@ _Mattias Beimers 3672565_
 The code for assignment __7.1__ is included in `A7_1.hs`.
 The function which generates all smooth permutations using a tree is called `smoothPerms'`.
 
+
 Exercise __8.1__ also goes with some code, included in `A8_1.hs`.
 The QuickCheck property is called `AllSmoothPerms`, as required.
 The benchmarking is done twice on a fairly random array with a different distance.
@@ -65,8 +66,10 @@ The profiling script is _not_ included in `A8_1`, but put into a seperate file c
 As one can see from the graphs, smoothPerms does not have a big heap graphs, while smoothPerms' does.
 This is explained fairly intuitively by noticing that the first function can just generate each permutation and discard or print it immediately, while the latter function has to maintain a big tree containing many of the permutations at the same time.
 
+
 The code for Exercise __2.5__ is contained in `A2_5.hs`.
 The first definition for count is likewise called `count` and the second definition ik called `count'`.
 The provided tests in the assignment can be executed by calling `test` and `test'` respectively.
+
 
 The solution to Exercise __9.1__ is contained in `A9_1.txt`.
