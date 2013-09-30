@@ -4,7 +4,7 @@ module A2_9 where
 type Stack = [Int]
 
 -- Some test expressions
--- p0, p1, p2, p3 :: Int
+p0, p1, p2, p3 :: Int
 p0 = start store 1 stop
 p1 = start store 3 store 5 add stop
 p2 = start store 3 store 6 store 2 mul add stop
