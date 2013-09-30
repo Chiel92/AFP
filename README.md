@@ -3,6 +3,8 @@ AFP
 
 This is an awesome tutorial: http://adit.io/posts/2013-04-17-functors,_applicatives,_and_monads_in_pictures.html#monads
 
+Here is another link to a nice resource about types: http://learnyouahaskell.com/making-our-own-types-and-typeclasses
+
 
 How to create a cabal library
 -----------------------------
@@ -32,4 +34,4 @@ Library
                     Profiling
 ```
 
-Then run `cabal sdist` to produce a compressed package that can be easily distributed.
+Then run `cabal sdist --zip` to produce a compressed package that can be easily distributed.

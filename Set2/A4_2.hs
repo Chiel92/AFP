@@ -14,3 +14,6 @@ m = Zero Nil
 -- No idea what this represents, but at least it type checks -_-
 n :: Square Int
 n = Succ (Zero (Cons ((Cons 1) Nil) Nil))
+
+--l :: Square Int
+--l = Succ (Succ (Zero (Cons ((Cons 1) Nil) Nil)))
