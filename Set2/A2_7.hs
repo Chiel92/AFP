@@ -2,18 +2,14 @@
 module A2_7 where
 import Control.Monad
 import Control.Monad.State
+import Control.Monad.Writer
+import Control.Monad.Identity
 
 type Object a = a -> a -> a
 data X = X {n :: Int, f :: Int -> Int}
 data Step a b = Enter a
               | Return b
                 deriving Show
-{-
-data X = X Int (Int -> Int)
-
-n (X n _) = n
-f (X _ f) = f
--}
 
 x, y, z :: Object X
 x super this = X {n = 0, f = \i -> i + n this}
@@ -52,8 +48,14 @@ calls super this n = do
 zero :: Object a
 zero super this = this
 
-
 -- The trace object
+-- The exercise tells us to use the most general type, so I should get rid of the Int's later
+trace :: MonadWriter [Step Int Int] m => Object (Int -> m Int)
+trace super this n = do
+    -- modify (mappend (Enter n))
+    super n
+    -- modify (mappend (Return n))
 
+-- A shortcut to test my function :)
+t = runWriter (fixObject (fac `extendedBy` trace) 3)
 
-test = runState (fixObject (fac `extendedBy` zero) 5) 0 -- Ok, I admit, I don't understand everything comletely :S
