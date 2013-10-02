@@ -52,9 +52,9 @@ zero super this = this
 -- The exercise tells us to use the most general type, so I should get rid of the Int's later
 trace :: MonadWriter [Step Int Int] m => Object (Int -> m Int)
 trace super this n = do
-    -- modify (mappend (Enter n))
+    tell [Enter n]
     super n
-    -- modify (mappend (Return n))
+    -- tell [Return n]
 
 -- A shortcut to test my function :)
 t = runWriter (fixObject (fac `extendedBy` trace) 3)
