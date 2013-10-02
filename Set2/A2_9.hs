@@ -63,7 +63,7 @@ add' (Stack' (Stack' s x) y) k = k (Stack' s (x + y))
 
 -- The mul function
 mul' :: Stack' (Stack' s) -> (Stack' s -> k) -> k
-mul' (Stack' (Stack' s x) y) k =  k (Stack' s (x + y))
+mul' (Stack' (Stack' s x) y) k =  k (Stack' s (x * y))
 
 -- The stop function
 stop' :: Stack' s -> Int
