@@ -53,8 +53,9 @@ zero super this = this
 trace :: MonadWriter [Step Int Int] m => Object (Int -> m Int)
 trace super this n = do
     tell [Enter n]
-    super n
-    -- tell [Return n]
+    result <- super n
+    tell [Return result]
+    return result
 
 -- A shortcut to test my function :)
 t = runWriter (fixObject (fac `extendedBy` trace) 3)
