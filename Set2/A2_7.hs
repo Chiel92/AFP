@@ -11,11 +11,13 @@ data Step a b = Enter a
               | Return b
                 deriving Show
 
+-- Examples
 x, y, z :: Object X
 x super this = X {n = 0, f = \i -> i + n this}
 y super this = super {n = 1}
 z super this = super {f = f super . f super}
 
+-- Given code
 fixObject :: Object a -> a
 fixObject o = o (error "super") (fixObject o)
 
@@ -44,6 +46,7 @@ calls super this n = do
 -- f (fixObject (x `extendedBy` y `extendedBy` z `extendedBy` z)) 5
 
 
+-- My code
 -- The zero object
 zero :: Object a
 zero super this = this
@@ -56,7 +59,4 @@ trace super this n = do
     result <- super n
     tell [Return result]
     return result
-
--- A shortcut to test my function :)
-t = runWriter (fixObject (fac `extendedBy` trace) 3)
 

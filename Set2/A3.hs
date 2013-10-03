@@ -3,17 +3,16 @@ module A3 where
 import Control.Monad.State
 
 
-data StateMonadPlus s a = DOei
+data StateMonadPlus s a = StateMonadPlus s -> (a, s)
 
 -- This function should count the number of binds (>>=)
 --
--- and returns (and other primi-
--- tive functions) that have been encountered,
+-- and returns (and other primitive functions) that have been encountered,
 -- including the call to diagnostics at hand.
--- Secondly, provide a function
 diagnostics :: StateMonadPlus s String
 diagnostics = undefined
 
+-- Secondly, provide a function annotate that
 -- allows a user to annotate a computation with a given label.
 -- The functions for
 -- Features 2 and 3, as well as get and put,
