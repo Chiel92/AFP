@@ -17,6 +17,9 @@ instance Monad (StateMonadPlus s) where
     -- return :: a -> StateMonadPlus s a
     return a = StateMonadPlus (\(s, d) -> Right (a, s, (incDict "return" d)))
 
+    -- fail :: String -> StateMonadPlus s a
+    fail message = StateMonadPlus (\(s, d) -> Left message)
+
 
 instance MonadState s (StateMonadPlus s) where
     -- get :: StateMonadPlus s s
@@ -30,6 +33,7 @@ instance Show (StateMonadPlus s String) where
     -- show :: StateMonadPlus s String -> String
     show (StateMonadPlus f) = g (f (undefined, [])) where
         g (Right (a, _, _)) = show a
+        g (Left s) = s
 
 
 
@@ -77,5 +81,11 @@ test = do
 
 test2 = do
     annotate "A" (return 3 >> return 4)
+    return 5
+    diagnostics
+
+test3 = do
+    annotate "A" (return 3 >> return 4)
+    fail "bla"
     return 5
     diagnostics
