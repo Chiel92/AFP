@@ -22,14 +22,13 @@ instance Monad (StateMonadPlus s) where
     -- in runStateMonadPlus (k a) s'
     return a = StateMonadPlus $ \s -> Right (a, s)
 
-
 -- This function should count the number of binds (>>=)
 -- and returns (and other primitive functions) that have been encountered,
 -- including the call to diagnostics at hand.
 diagnostics :: StateMonadPlus s String
 diagnostics = undefined
 
--- Secondly, provide a function that
+-- Secondly, provide a function annotate that
 -- allows a user to annotate a computation with a given label.
 -- The functions for
 -- Features 2 and 3, as well as get and put,
