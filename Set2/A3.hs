@@ -1,4 +1,4 @@
-{-# LANGUAGE MultiParamTypeClasses #-}
+{-# LANGUAGE MultiParamTypeClasses, FlexibleInstances #-}
 module A3 where
 import Control.Monad.State
 
@@ -8,10 +8,16 @@ instance Monad (StateMonadPlus s) where
     -- (>>=) :: StateMonadPlus s a -> (a -> StateMonadPlus s a) -> StateMonadPlus s a
     m >>= k = StateMonadPlus (\s -> f (runStateMonadPlus m s))
       where
-        -- f :: Either String (a, s) -> Either String (a, s)
         f (Left s') = Left s'
         f (Right (a, s')) = runStateMonadPlus (k a) s'
-    return a = StateMonadPlus $ \s -> Right (a, s)
+    return a = StateMonadPlus (\s -> Right (a, s))
+
+instance MonadState s (StateMonadPlus s) where
+    -- get :: StateMonadPlus s s
+    get = StateMonadPlus (\s -> Right (s, s))
+    -- put :: s -> StateMonadPlus s ()
+    put s = StateMonadPlus (\_ -> Right ((), s))
+
 
 -- This function should count the number of binds (>>=)
 -- and returns (and other primitive functions) that have been encountered,
