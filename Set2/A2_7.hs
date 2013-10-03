@@ -60,3 +60,7 @@ trace super this n = do
     tell [Return result]
     return result
 
+-- The example from the pdf
+test :: (Int, [Step Int Int])
+test = runWriter (fixObject (fac `extendedBy` trace) 3)
+
