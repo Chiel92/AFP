@@ -1,5 +1,5 @@
-{-# LANGUAGE MultiParamTypeClasses, FlexibleInstances, FunctionalDependencies,NoMonomorphismRestriction #-}
-module A3 where
+{-# LANGUAGE MultiParamTypeClasses, FlexibleInstances, FunctionalDependencies, NoMonomorphismRestriction #-}
+module A3 (Monad(..), MonadState(..), StoreState(..), StateMonadPlus, diagnostics, annotate, runStateMonadPlus) where
 import Control.Monad.State
 import Data.List
 

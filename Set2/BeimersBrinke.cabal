@@ -7,7 +7,8 @@ License-file:       LICENSE
 Category:           Educational Assignment
 Description:        This is the second set of assignments for the course Advanced Functional Programming. Please read the README.md for detailed information about the structure of this package.
 Build-Type:         Simple
-data-files:         README.md
+data-files:         README.md,
+                    bonus_questions.txt
 
 Library
   Build-Depends:    base,
