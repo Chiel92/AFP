@@ -38,9 +38,9 @@ instance Show (StateMonadPlus s String) where
 -- including the call to diagnostics at hand.
 diagnostics :: StateMonadPlus s String
 diagnostics = StateMonadPlus (\(s, d) ->
-              let d' = incDict "diagnostics" d
+              let d'       = incDict "diagnostics" d
                   f (k, v) = k ++ "=" ++ (show v)
-                  showd = "[" ++ (intercalate ", " (map f d')) ++ "]"
+                  showd    = "[" ++ (intercalate ", " (map f d')) ++ "]"
               in Right (showd, s, d'))
 
 -- Increment dictionary value for given key
@@ -55,7 +55,10 @@ incDict key ((k, v):xs) | k == key  = (k, v + 1):xs
 -- Features 2 and 3, as well as get and put,
 -- should also be part of the diagnosis.
 annotate :: String -> StateMonadPlus s a -> StateMonadPlus s a
-annotate = undefined
+annotate key m = StateMonadPlus (\(s, d) ->
+                 let  Right (a, s', d) = runStateMonadPlus m (s, d)
+                      d'               = incDict key d
+                 in Right (a, s', d'))
 
 -- Running the monad.
 -- Given a computation in the StateMonadPlus and an initial
@@ -72,3 +75,7 @@ test = do
     return 5
     diagnostics
 
+test2 = do
+    annotate "A" (return 3 >> return 4)
+    return 5
+    diagnostics
