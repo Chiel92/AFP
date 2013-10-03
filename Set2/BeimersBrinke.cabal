@@ -1,0 +1,21 @@
+Name:               BeimersBrinke
+Version:            1
+Cabal-Version:      >= 1.2
+Author:             Chiel ten Brinke (3677133) and Mattias Beimers (3672565)
+License:            GPL
+License-file:       LICENSE
+Category:           Educational Assignment
+Description:        This is the second set of assignments for the course Advanced Functional Programming. Please read the README.md for detailed information about the structure of this package.
+Build-Type:         Simple
+data-files:         README.md
+
+Library
+  Build-Depends:    base,
+                    criterion,
+                    QuickCheck
+  Exposed-modules:  A2_7,
+                    A2_9,
+                    A3,
+                    A4_1,
+                    A4_2
+
