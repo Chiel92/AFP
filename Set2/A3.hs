@@ -5,6 +5,10 @@ import Control.Monad.State
 type Dict = [(String, Int)]
 data StateMonadPlus s a = StateMonadPlus ((s, Dict) -> Either String (a, s, Dict))
 
+instance Show (StateMonadPlus s String) where
+    show (StateMonadPlus f) = g (f (undefined, [])) where
+        g (Right (a, _, _)) = show a
+
 instance Monad (StateMonadPlus s) where
     -- (>>=) :: StateMonadPlus s a -> (a -> StateMonadPlus s a) -> StateMonadPlus s a
     m >>= k = StateMonadPlus (\s -> f (runStateMonadPlus m (incDict "bind" s)))
@@ -27,12 +31,19 @@ instance MonadState s (StateMonadPlus s) where
 -- and returns (and other primitive functions) that have been encountered,
 -- including the call to diagnostics at hand.
 diagnostics :: StateMonadPlus s String
-diagnostics = undefined
+diagnostics = StateMonadPlus (\(s, d) -> Right (show d, s, d))
 
 -- Some random comment
 incDict :: String -> (s, Dict) -> (s, Dict)
-incDict key (s, d) = (s, d') where
-    d' = d
+incDict key (s, d) = (s, f d) where
+    f []                      = [(key, 1)]
+    f ((k, v):xs) | k == key  = (k, v + 1):xs
+                  | otherwise = (k, v):f xs
+
+test = do
+    return 3 >> return 4
+    return 5
+    diagnostics
 
 -- Secondly, provide a function annotate that
 -- allows a user to annotate a computation with a given label.
