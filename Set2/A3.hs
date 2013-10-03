@@ -5,21 +5,12 @@ import Control.Monad.State
 data StateMonadPlus s a = StateMonadPlus (s -> Either String (a, s))
 
 instance Monad (StateMonadPlus s) where
-    m >>= k = StateMonadPlus f
+    -- (>>=) :: StateMonadPlus s a -> (a -> StateMonadPlus s a) -> StateMonadPlus s a
+    m >>= k = StateMonadPlus (\s -> f (runStateMonadPlus m s))
       where
-        f :: (s -> Either String (a, s))
-        f s = g (runStateMonadPlus m s)
-          where
-            g :: Either String (a, s) -> Either String (a, s)
-            g (Left s) = Left s
-            g m'@(Right (a, s')) = runStateMonadPlus (k (\s -> m')) s'
-
-
-    -- let Right (a, s') = runStateMonadPlus m s
-    -- in k a
-    -- m >>= k = StateMonadPlus $ \s ->
-    -- let Right (a, s') = runStateMonadPlus m s
-    -- in runStateMonadPlus (k a) s'
+        -- f :: Either String (a, s) -> Either String (a, s)
+        f (Left s') = Left s'
+        f (Right (a, s')) = runStateMonadPlus (k a) s'
     return a = StateMonadPlus $ \s -> Right (a, s)
 
 -- This function should count the number of binds (>>=)
