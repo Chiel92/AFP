@@ -56,9 +56,9 @@ incDict key ((k, v):xs) | k == key  = (k, v + 1):xs
 -- should also be part of the diagnosis.
 annotate :: String -> StateMonadPlus s a -> StateMonadPlus s a
 annotate key m = StateMonadPlus (\(s, d) ->
-                 let  Right (a, s', d) = runStateMonadPlus m (s, d)
-                      d'               = incDict key d
-                 in Right (a, s', d'))
+                 let  Right (a, s', d') = runStateMonadPlus m (s, d)
+                      d''               = incDict key d'
+                 in Right (a, s', d''))
 
 -- Running the monad.
 -- Given a computation in the StateMonadPlus and an initial
