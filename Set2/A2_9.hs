@@ -1,8 +1,6 @@
 module A2_9 where
 
 -- The naieve solution
-
--- A nice abbreviation
 type Stack = [Int]
 
 -- Implementation of the stack functions
@@ -30,7 +28,7 @@ p2 = start store 3 store 6 store 2 mul add stop
 p3 = start store 2 add stop
 
 
--- The solution that rejects programs that require
+-- This solution rejects programs that require
 -- nonexisting stack elements during type checking
 data Stack' s = Stack' s Int deriving Show
 data EmptyStack' = EmptyStack'
