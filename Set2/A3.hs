@@ -1,23 +1,22 @@
 {-# LANGUAGE MultiParamTypeClasses, FlexibleInstances #-}
 module A3 where
 import Control.Monad.State
+import Data.List
 
 type Dict = [(String, Int)]
 data StateMonadPlus s a = StateMonadPlus ((s, Dict) -> Either String (a, s, Dict))
 
-instance Show (StateMonadPlus s String) where
-    show (StateMonadPlus f) = g (f (undefined, [])) where
-        g (Right (a, _, _)) = show a
 
 instance Monad (StateMonadPlus s) where
     -- (>>=) :: StateMonadPlus s a -> (a -> StateMonadPlus s a) -> StateMonadPlus s a
-    m >>= k = StateMonadPlus (\s -> f (runStateMonadPlus m (incDict "bind" s)))
+    m >>= k = StateMonadPlus (\(s, d) -> f (runStateMonadPlus m (s, incDict "bind" d)))
       where
         f (Left s') = Left s'
         f (Right (a, s', d)) = runStateMonadPlus (k a) (s', d)
 
     -- return :: a -> StateMonadPlus s a
-    return a = StateMonadPlus (\(s, d) -> Right (a, s, d))
+    return a = StateMonadPlus (\(s, d) -> Right (a, s, (incDict "return" d)))
+
 
 instance MonadState s (StateMonadPlus s) where
     -- get :: StateMonadPlus s s
@@ -27,23 +26,28 @@ instance MonadState s (StateMonadPlus s) where
     put s = StateMonadPlus (\(_, d) -> Right ((), s, d))
 
 
+instance Show (StateMonadPlus s String) where
+    -- show :: StateMonadPlus s String -> String
+    show (StateMonadPlus f) = g (f (undefined, [])) where
+        g (Right (a, _, _)) = show a
+
+
+
 -- This function should count the number of binds (>>=)
 -- and returns (and other primitive functions) that have been encountered,
 -- including the call to diagnostics at hand.
 diagnostics :: StateMonadPlus s String
-diagnostics = StateMonadPlus (\(s, d) -> Right (show d, s, d))
+diagnostics = StateMonadPlus (\(s, d) ->
+              let d' = incDict "diagnostics" d
+                  f (k, v) = k ++ "=" ++ (show v)
+                  showd = "[" ++ (intercalate ", " (map f d')) ++ "]"
+              in Right (showd, s, d'))
 
--- Some random comment
-incDict :: String -> (s, Dict) -> (s, Dict)
-incDict key (s, d) = (s, f d) where
-    f []                      = [(key, 1)]
-    f ((k, v):xs) | k == key  = (k, v + 1):xs
-                  | otherwise = (k, v):f xs
-
-test = do
-    return 3 >> return 4
-    return 5
-    diagnostics
+-- Increment dictionary value for given key
+incDict :: String -> Dict -> Dict
+incDict key []                      = [(key, 1)]
+incDict key ((k, v):xs) | k == key  = (k, v + 1):xs
+                        | otherwise = (k, v):incDict key xs
 
 -- Secondly, provide a function annotate that
 -- allows a user to annotate a computation with a given label.
@@ -60,4 +64,11 @@ annotate = undefined
 -- the result of the computation and the final state.
 runStateMonadPlus :: StateMonadPlus s a -> (s, Dict) -> Either String (a, s, Dict)
 runStateMonadPlus (StateMonadPlus f) = f
+
+
+-- Testing
+test = do
+    return 3 >> return 4
+    return 5
+    diagnostics
 
