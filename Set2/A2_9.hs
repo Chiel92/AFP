@@ -3,6 +3,7 @@ module A2_9 where
 -- The naieve solution
 type Stack = [Int]
 
+
 -- Implementation of the stack functions
 start :: (Stack -> k) -> k
 start k = k []
@@ -32,6 +33,7 @@ p3 = start store 2 add stop
 -- nonexisting stack elements during type checking
 data Stack' s = Stack' s Int deriving Show
 data EmptyStack' = EmptyStack'
+
 
 -- Implementation of the stack functions
 start' :: (EmptyStack' -> r) -> r
