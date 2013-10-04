@@ -5,19 +5,14 @@ import Control.Monad.State
 import Control.Monad.Writer
 import Control.Monad.Identity
 
+
 type Object a = a -> a -> a
 data X = X {n :: Int, f :: Int -> Int}
 data Step a b = Enter a
               | Return b
                 deriving Show
 
--- Examples
-x, y, z :: Object X
-x super this = X {n = 0, f = \i -> i + n this}
-y super this = super {n = 1}
-z super this = super {f = f super . f super}
 
--- Given code
 fixObject :: Object a -> a
 fixObject o = o (error "super") (fixObject o)
 
@@ -34,19 +29,7 @@ calls super this n = do
     modify (+1)
     super n
 
--- Look at what the type of fixObject is and familiarize yourself with
--- the behaviour of fixObject by trying the following expressions:
--- n (fixObject x)
--- f (fixObject x) 5
--- n (fixObject y)
--- f (fixObject y) 5
--- n (fixObject (x `extendedBy` y))
--- f (fixObject (x `extendedBy` y)) 5
--- f (fixObject (x `extendedBy` y `extendedBy` z)) 5
--- f (fixObject (x `extendedBy` y `extendedBy` z `extendedBy` z)) 5
 
-
--- My code
 -- The zero object
 zero :: Object a
 zero super this = this
@@ -59,6 +42,7 @@ trace super this n = do
     result <- super n
     tell [Return result]
     return result
+
 
 -- The example from the pdf
 test :: (Int, [Step Int Int])
