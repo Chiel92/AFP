@@ -1,37 +1,30 @@
-
 3.1 Do the monad laws hold for StateMonadPlus? Explain your answer.
 -------------------------------------------------------------------
-
 The three monad laws are:
 
 Left identity:
-return a >>= k ≡   k a
+return a >>= k == k a
 When we look at the definitions of our bind operator and our return function, we see that the return function just wraps an inner value inside a StateMonadPlus datatype, while the bind operator indeed takes a inner value wrapped by a StateMonadPlus datatype and passes it to a function. So this law is obeyed.
 
 Right identity:
-m >>= return ≡   m
+m >>= return == m
 Again, looking at the definitions and reversing the reasoning above, we see that this law is obeyed.
 
 Associativity:
-(m >>= f) >>= g ≡   m >>= (\x -> f x >>= g)
-On the right hand side, x represents an 'inner value' of a StateMonadPlus, which is passed to f. f creates a StateMonadPlus of it and passes it via the bind operator to g. The 'inner value' x then is given by m (again via the bind operator), which makes the previous actually happen. So this is exactly the same as doing it the other way around.
+(m >>= f) >>= g == m >>= (\x -> f x >>= g)
+On the right hand side, x represents an 'inner value' of a StateMonadPlus, which is passed to f. f creates a new StateMonadPlus of it and passes it via the bind operator to g. The 'inner value' x then is given by m (again via the bind operator), which makes the previous actually happen. So this is exactly the same as doing it the other way around.
 
 
 3.2 What are the advantages of hiding (constructor) functions?
 How important is this for each of the three additional features supported by StateMonadPlus?
--------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------
 The advantage of information hiding is that at a later time we could change inner workings without affecting users of the type. So for instance with type constructors, it is well possible that they are not necessarily needed outside the module because the various abstract operations that are exported provide enough functionality. In that case, hiding them maybe be a good idea.
 
+The additional features of StateMonadPlus shouldn't be hidden, because they are functions that are intended for use outside the module.
+In fact, they allow the constructor functions to be hidden, since they provide all the functionality needed.
 
-3.3. What are the modifications required to make a monad transformer for StateMonadPlus?
-----------------------------------------------------------------------------------------
 
-
-3.4. Suppose that we want to write a function `diagnosticsFuture :: StateMonadPlus s String`
-which provides information about the computations in StateMonadPlus that are still to
-come. Explain how this would affect your code. If you feel that such a facility cannot be
-implemented, then you should give some arguments for your opinion. If you believe it
-can be done, then try to do so.
---------------------------------------------------------------------------------------------
-
+3.3 and 3.4
+-----------
+Unfortunately we didn't have the time to answer the last two bonus questions.
 
