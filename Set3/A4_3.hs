@@ -92,5 +92,4 @@ mapSquare = mapSquare' mapNil
 
 instance Functor Square where
     fmap = mapSquare
--- [2,3,4] = map (+1) [1,2,3]
 
