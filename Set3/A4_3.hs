@@ -29,6 +29,15 @@ m3 = Succ (Succ (Succ (Zero (Cons r1 (Cons r2 (Cons r3 Nil)))))) where
     r2 = Cons 4 (Cons 5 (Cons 6 Nil))
     r3 = Cons 7 (Cons 8 (Cons 9 Nil))
 
+m3' :: Square Int
+m3' = Succ (Succ (Succ (Zero (Cons r1 (Cons r2 (Cons r3 Nil)))))) where
+    r1 = Cons 0 (Cons 1 (Cons 2 Nil))
+    r2 = Cons 3 (Cons 4 (Cons 5 Nil))
+    r3 = Cons 6 (Cons 7 (Cons 8 Nil))
+
+test :: Bool
+test = m3 == fmap (+1) m3'
+
 
 -- Equality stuff
 eqNil :: (a -> a -> Bool) -> (Nil a -> Nil a -> Bool)
@@ -55,7 +64,7 @@ eqSquare' eqT eqA (Succ xs) (Succ ys) = eqSquare' (eqCons eqT) eqA xs ys
 eqSquare' eqT eqA _         _         = False
 
 -- Task. Again, try removing the forall from the type of eqSquare'. Does the function still typecheck? Try to explain!
--- Answer: No, you can't omit the forall, exactly because the function doesn't typecheck anymore. It doesn't typecheck anymore because the function changes. TODO
+-- Answer: No, you can't omit the forall, exactly because the function doesn't typecheck anymore. It doesn't typecheck anymore because the function changes. TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 eqSquare :: (a -> a -> Bool) -> Square a -> Square a -> Bool
 eqSquare = eqSquare' eqNil
@@ -64,11 +73,24 @@ eqSquare = eqSquare' eqNil
 instance Eq a => Eq (Square a) where
     (==) = eqSquare (==)
 
+
 -- Task. Systematically follow the scheme just presented in order to define a Functor instance for square matrices. I.e., derive a function mapSquare such that you can define
+mapNil :: (a -> b) -> Nil a -> Nil b
+mapNil _ Nil = Nil
 
+mapCons :: ((a -> b) -> (t a -> t b)) -> (a -> b) -> Cons t a -> Cons t b
+mapCons mapT f (Cons x xs) = Cons (f x) (mapT f xs)
 
-mapSquare = undefined
+mapSquare' :: (forall a b. (a -> b) -> (t a -> t b) ) ->
+              (a -> b) ->
+              Square' t a -> Square' t b
+mapSquare' mapT f (Zero xs) = Zero (mapT (mapT f) xs)
+mapSquare' mapT f (Succ xs) = Succ (mapSquare' (mapCons mapT) f xs)
+
+mapSquare :: (a -> b) -> Square a -> Square b
+mapSquare = mapSquare' mapNil
 
 instance Functor Square where
     fmap = mapSquare
+-- [2,3,4] = map (+1) [1,2,3]
 
