@@ -1,0 +1,28 @@
+G |- e : t
+    means in environment G, term e has type t
+
+Consider the following system of classes.
+
+1) class A a
+2) class (A a) => B a
+3) instance A Bool
+4) instance B Bool
+5) instance A a => A (Maybe a)
+6) instance (A a, B a) => A [a]
+
+Prove:
+i) B Int |- A (Maybe (Maybe Int))
+ii) ∅  |- A (Maybe [Bool])
+
+i)
+class (A a) => (B a)
+--------------------(super)
+   (B a) |- (A a)       instance B Int
+   -----------------------------------(inst)
+                 (A Int)                        instance (A a) => A (Maybe a)
+                 ------------------------------------------------------------(inst)
+                                        A (Maybe Int)                                   instance (A a) => A (Maybe a)
+                                        -----------------------------------------------------------------------------(inst)
+                                                                            A (Maybe (Maybe Int))
+
+
