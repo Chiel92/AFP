@@ -17,12 +17,16 @@ ii) ∅  |- A (Maybe [Bool])
 i)
 class (A a) => (B a)
 --------------------(super)
-   (B a) |- (A a)       instance B Int
-   -----------------------------------(inst)
-                 (A Int)                        instance (A a) => A (Maybe a)
-                 ------------------------------------------------------------(inst)
-                                        A (Maybe Int)                                   instance (A a) => A (Maybe a)
-                                        -----------------------------------------------------------------------------(inst)
-                                                                            A (Maybe (Maybe Int))
+   (B a) |- (A a)       (a -> Int) (this is a substitution)
+   -------------------------------(closure)
+           (B Int) |- (A Int)              instance B Int
+           ----------------------------------------------(inst)
+                         (A Int)                               instance (A a) => A (Maybe a)
+                         -------------------------------------------------------------------(inst)
+                                                 A (Maybe Int)                                     instance (A a) => A (Maybe a)
+                                                --------------------------------------------------------------------------------(inst)
+                                                                                    A (Maybe (Maybe Int))
+
+ii)
 
 
