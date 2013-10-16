@@ -1,4 +1,4 @@
-module A8_3 where
+module A8_4 where
 
 -- You gotta love hacks
 forceBoolList :: [Bool] -> r -> r
