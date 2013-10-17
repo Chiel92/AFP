@@ -12,12 +12,12 @@ Consider the following system of classes.
 
 Prove:
 i) B Int |- A (Maybe (Maybe Int))
-ii) ∅  |- A (Maybe [Bool])                -- That weird symbol is the empty set {}
+ii) {} |- A (Maybe [Bool])            -- {} is the empty set
 
 i)
 class (A a) => (B a)
 --------------------(super)
-   (B a) |- (A a)       (a -> Int) (this is a substitution)
+   (B a) |- (A a)       (a -> Int) *
    -------------------------------(closure)
            (B Int) |- (A Int)              instance B Int
            ----------------------------------------------(inst)
@@ -27,6 +27,19 @@ class (A a) => (B a)
                                                 --------------------------------------------------------------------------------(inst)
                                                                                     A (Maybe (Maybe Int))
 
-ii)
 
+ii)
+                                  instance (A a,B a) => A [a]
+                                  ---------------------------(inst)
+                                      (A a,B a) |- A [a]           (a -> Bool) *               instance (A a) => A (Maybe a)
+                                      ----------------------------------------(closure)        -----------------------------(inst)
+instance A Bool    instance B Bool        (A Bool, B Bool) |- A [Bool]                              (A a) |- A (Maybe a)           (a -> [Bool]) *
+----------------------------------------------------------------------(inst)                        --------------------------------------------(closure)
+                             A [Bool]                                                                       (A [Bool]) |- A (Maybe [Bool])
+                             -------------------------------------------------------------------------------------------------------------(trans)
+                                                                              A (Maybe [Bool])
+
+
+
+* (This is a substitution function)
 
