@@ -32,7 +32,7 @@ p3 = start store 2 add stop
 -- This solution rejects programs that require
 -- nonexisting stack elements during type checking
 data Stack' s = Stack' s Int deriving Show
-data EmptyStack' = EmptyStack'
+data EmptyStack' = EmptyStack' deriving Show
 
 
 -- Implementation of the stack functions
