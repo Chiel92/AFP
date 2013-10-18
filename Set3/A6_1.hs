@@ -57,8 +57,8 @@ preservesPos  = preserves (>0)
 preservesPos' = pos --> pos
 
 -- These two things are NOT the same try as counterexample:
-counterexample  = assert preservesPos (+42) (-1337)
-counterexample' = assert preservesPos' (+42) (-1337)
+counterexample  = assert preservesPos (+42) (-1337)  -- This one checks whether the sign of the value doesn't change
+counterexample' = assert preservesPos' (+42) (-1337) -- This one checks whether all values are positive or not
 -- For the fun of it, we have a proof with equational reasoning in A6_1_proof.txt
 
 
@@ -66,6 +66,10 @@ counterexample' = assert preservesPos' (+42) (-1337)
 allPos = List pos
 allPos' = Pred (all (>0))
 
--- The infinite list case: allPos lazily computes the elements, while allPos' computes them all before returning the results. So for example take 5 $ allPos [1..] works, where take 5 $ allPos' [1..] doesn't.
+-- The difference is that allPos lazily computes the elements, while allPos' computes them all before returning the result.
+-- 
+-- In general the only differences is in strictness and non-strictness.
+-- In the infinite list case this means you actually get a different result.
+-- For example take 5 $ allPos [1..] works, where take 5 $ allPos' [1..] doesn't.
 
 
