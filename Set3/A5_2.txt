@@ -1,6 +1,3 @@
-G |- e : t
-    means in environment G, term e has type t
-
 Consider the following system of classes.
 
 1) class A a

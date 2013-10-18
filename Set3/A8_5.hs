@@ -5,10 +5,10 @@ module A8_3 where
 
 -- It works because the duplicate funtion duplicates the type signature (the amount of a's in the type signature doubles every time you 'add another dup function').
 -- The amount of a's in the type signature is 2^n, where n is the number of composed dub's, which is exponential..
--- Because this doesn't only duplicate the number of a's, but also wraps it in different tuples every time, this is a way to create a truly large type signature :)
+-- Because this doesn't only duplicate the number of a's, but also wraps it in different tuples every time (with two different types - one normal and one singleton list), this is a way to create a truly large type signature :)
 
-dup :: a -> (a, a)
-dup x = (x,x)
+dup :: a -> (a, [a])
+dup x = (x, [x])
 
 test1  = dup
 test2  = dup.dup
