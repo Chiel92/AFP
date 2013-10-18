@@ -64,7 +64,7 @@ eqSquare' eqT eqA (Succ xs) (Succ ys) = eqSquare' (eqCons eqT) eqA xs ys
 eqSquare' eqT eqA _         _         = False
 
 -- Task. Again, try removing the forall from the type of eqSquare'. Does the function still typecheck? Try to explain!
--- Answer: No, you can't omit the forall, exactly because the function doesn't typecheck anymore. It doesn't typecheck anymore because the function changes. TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+-- Answer: No, you can't omit the forall, exactly because the function doesn't typecheck anymore. It doesn't typecheck anymore because the function (and it's type) changes.
 
 eqSquare :: (a -> a -> Bool) -> Square a -> Square a -> Bool
 eqSquare = eqSquare' eqNil

@@ -1,4 +1,4 @@
-module A8_3 where
+module A8_5 where
 
 -- This example is found on the internet:
 -- http://www.mail-archive.com/haskell-cafe@haskell.org/msg65869.html

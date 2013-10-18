@@ -68,8 +68,10 @@ allPos' = Pred (all (>0))
 
 -- The difference is that allPos lazily computes the elements, while allPos' computes them all before returning the result.
 -- 
--- In general the only differences is in strictness and non-strictness.
--- In the infinite list case this means you actually get a different result.
--- For example take 5 $ allPos [1..] works, where take 5 $ allPos' [1..] doesn't.
-
+-- In general the only differences is in strictness and non-strictness. Both are non-strict in traversing the list,
+-- but for allPos' the Contracts are strict.
+-- In the infinite list case this means you actually get a different result, in other cases the result is the same,
+-- and only performance can differ. It won't differ much, but List pos has a slight overhead.
+-- An example for the allPosses on an infinite list: take 5 $ allPos [1..] works, where take 5 $ allPos' [1..] doesn't.
+-- The last one doesn't work because the if requires all values to be checked, wheres the first one's elements are computed lazily.
 
