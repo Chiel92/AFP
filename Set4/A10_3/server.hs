@@ -86,9 +86,9 @@ deleteClient server@(Server clientList) client = atomically $ do
 -- Listen to the client
 listenClient :: Server -> Client -> IO ()
 listenClient server client = do
-   msg <- hGetLine $ getHandle client
-   atomically $ broadcast server $ getName client ++ ": " ++ msg
-   listenClient server client
+    msg <- hGetLine $ getHandle client
+    atomically $ broadcast server $ getName client ++ ": " ++ msg
+    listenClient server client
 
 
 -- Send messages to the clients
