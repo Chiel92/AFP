@@ -53,8 +53,7 @@ addClient server handle id = do
     addClient' server client
 
     -- Manage the client
-    forkIO $ listenClient server client `finally` deleteClient server client
-    forkIO $ sendClient client   `finally` deleteClient server client
+    manageClient server client `finally` deleteClient server client
     -- TODO - we delete the same client twice!!!!!! Oh no.
     return ()
 
@@ -64,6 +63,17 @@ addClient' :: Server -> Client -> IO ()
 addClient' server@(Server clientList) client = atomically $ do 
     modifyTVar' clientList $ insert (getId client) client
     broadcast server $ "** " ++ (getName client) ++ " entered the room **"
+
+
+-- Manage the client
+manageClient :: Server -> Client -> IO ()
+manageClient server client = do
+    waitUntillClosed <- newEmptyMVar
+    listenId <- forkIO $ listenClient server client `finally` tryPutMVar waitUntillClosed ()
+    sendId   <- forkIO $ sendClient client `finally` tryPutMVar waitUntillClosed ()
+    takeMVar waitUntillClosed
+    killThread listenId
+    killThread sendId
 
 
 -- Delete the client
