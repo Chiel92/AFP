@@ -1,4 +1,4 @@
-module Server where
+module Main where
 
 import Prelude hiding (id, catch)
 import System.IO
@@ -40,6 +40,7 @@ createClient id name handle = newTChanIO >>= return . (Client id name handle)
 acceptSockets :: Server -> Socket -> Int -> IO ()
 acceptSockets server socket id = do
     (handle, host, port) <- accept socket
+    hSetBuffering handle LineBuffering
     forkIO $ addClient server handle id `finally` hClose handle
     acceptSockets server socket (id + 1)
 
@@ -47,9 +48,6 @@ acceptSockets server socket id = do
 -- Add the client and manage it
 addClient :: Server -> Handle -> Int -> IO ()
 addClient server handle id = do
-    -- AAARGH, ok, well, that fixes it.
-    hSetBuffering handle LineBuffering
-
     -- Insert the client in the server's clientList
     name   <- hGetLine handle
     client <- createClient id name handle
