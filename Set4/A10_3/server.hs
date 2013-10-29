@@ -47,6 +47,9 @@ acceptSockets server socket id = do
 -- Add the client and manage it
 addClient :: Server -> Handle -> Int -> IO ()
 addClient server handle id = do
+    -- AAARGH, ok, well, that fixes it.
+    hSetBuffering handle LineBuffering
+
     -- Insert the client in the server's clientList
     name   <- hGetLine handle
     client <- createClient id name handle
