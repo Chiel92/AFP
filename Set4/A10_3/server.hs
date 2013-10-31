@@ -86,15 +86,19 @@ deleteClient server@(Server clientList) client = atomically $ do
 -- Listen to the client
 listenClient :: Server -> Client -> IO ()
 listenClient server client = do
-   msg <- hGetLine $ getHandle client
-   atomically $ broadcast server $ getName client ++ ": " ++ msg
-   listenClient server client
+    putStrLn $ "listen " ++ getName client
+    msg <- hGetLine $ getHandle client
+    putStrLn msg
+    atomically $ broadcast server $ getName client ++ "; " ++ msg
+    listenClient server client
 
 
 -- Send messages to the clients
 sendClient :: Client -> IO ()
 sendClient client = do
+    putStrLn $ "send " ++ getName client
     msg <- atomically $ readTChan $ getChan client
+    putStrLn $ "sent " ++ getName client ++ ": " ++ msg
     hPutStrLn (getHandle client) msg
     sendClient client
 
@@ -104,5 +108,5 @@ broadcast :: Server -> String -> STM ()
 broadcast (Server clientList) msg = do
     readTVar clientList >>= Data.Foldable.mapM_ sendMsg
       where
-        sendMsg client = writeTChan (getChan client) msg 
+        sendMsg client = writeTChan (getChan client) msg
 
