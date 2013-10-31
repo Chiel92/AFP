@@ -1,4 +1,4 @@
-module Server where
+module Main where
 
 import Prelude hiding (id, catch)
 import System.IO
@@ -40,6 +40,7 @@ createClient id name handle = newTChanIO >>= return . (Client id name handle)
 acceptSockets :: Server -> Socket -> Int -> IO ()
 acceptSockets server socket id = do
     (handle, host, port) <- accept socket
+    hSetBuffering handle LineBuffering
     forkIO $ addClient server handle id `finally` hClose handle
     acceptSockets server socket (id + 1)
 
@@ -60,7 +61,7 @@ addClient server handle id = do
 
 -- Do the actual adding of the client
 addClient' :: Server -> Client -> IO ()
-addClient' server@(Server clientList) client = atomically $ do 
+addClient' server@(Server clientList) client = atomically $ do
     modifyTVar' clientList $ insert (getId client) client
     broadcast server $ "** " ++ (getName client) ++ " entered the room **"
 
@@ -86,10 +87,8 @@ deleteClient server@(Server clientList) client = atomically $ do
 -- Listen to the client
 listenClient :: Server -> Client -> IO ()
 listenClient server client = do
-    putStrLn $ "listen " ++ getName client
     msg <- hGetLine $ getHandle client
-    putStrLn msg
-    atomically $ broadcast server $ getName client ++ "; " ++ msg
+    atomically $ broadcast server $ getName client ++ ": " ++ msg
     listenClient server client
 
 
