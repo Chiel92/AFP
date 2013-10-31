@@ -1,7 +1,3 @@
---
--- Stolen from: http://hackage.haskell.org/package/generic-deriving-1.6.2/docs/src/Generics-Deriving-Show.html
---
-
 {-# LANGUAGE TypeSynonymInstances #-}
 {-# LANGUAGE OverlappingInstances #-}
 {-# LANGUAGE FlexibleInstances #-}
@@ -144,4 +140,3 @@ instance (GShow a) => GShow [a] where
                    . foldr (.) id
                       (intersperse (showChar ',') (map (gshowsPrec 0) l))
                    . showChar ']'
-
