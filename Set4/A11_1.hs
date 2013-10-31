@@ -1,4 +1,17 @@
 {-# LANGUAGE CPP #-}
+
+--
+-- The quickCheck tests
+--
+
+-- TODO
+
+
+--
+-- The implementations of gshow and gread below are taken from the github repository of SYB.
+--
+
+
 -----------------------------------------------------------------------------
 -- |
 -- Module      :  Data.Generics.Text
