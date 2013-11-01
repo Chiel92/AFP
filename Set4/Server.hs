@@ -1,4 +1,4 @@
-module Main where
+module Server where
 
 import Prelude hiding (id, catch)
 import System.IO

@@ -28,7 +28,7 @@
 --
 -----------------------------------------------------------------------------
 
-module Data.Generics.Text (
+module A11_1 (
 
     -- * Generic show
     gshow, gshows,

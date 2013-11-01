@@ -13,7 +13,10 @@ Library
   Build-Depends:    base,
                     QuickCheck,
                     generic-deriving,
-                    syb
+                    syb,
+                    containers,
+                    network,
+                    stm
   Exposed-modules:  Server,
                     Client,
                     A11_1,

@@ -1,4 +1,4 @@
-module Main where
+module Client where
 
 import Network
 import System.IO
@@ -28,13 +28,11 @@ main = do
 send :: ThreadId -> Handle -> IO ()
 send receiveId handle = do
     msg <- getLine
-    if msg == "quit" || msg == "exit"
-    then do
+    if msg == "quit" || msg == "exit" then (do
         killThread receiveId
-        hClose handle
-    else do
+        hClose handle) else (do
         hPutStrLn handle msg
-        send receiveId handle
+        send receiveId handle)
 
 
 -- The receive loop
