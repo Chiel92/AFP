@@ -1,0 +1,20 @@
+Name:               BeimersBrinke
+Version:            1.0
+Cabal-Version:      >= 1.2
+Author:             Chiel ten Brinke and Mattias Beimers
+License:            GPL
+License-file:       LICENSE
+Category:           Educational Assignment
+Description:        This is the fourth set of assignments
+Build-Type:         Simple
+data-files:         README.md
+
+Library
+  Build-Depends:    base,
+                    QuickCheck,
+                    generic-deriving,
+                    syb
+  Exposed-modules:  Server,
+                    Client,
+                    A11_1,
+                    A11_2
